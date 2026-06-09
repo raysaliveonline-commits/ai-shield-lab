@@ -3,818 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Shield - Enterprise Cybersecurity Dashboard</title>
+    <title>AI Shield - Enterprise SOC/NOC Dashboard</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pbE6k6Yk3N5gq2s1z8b0K9lYQ7b9V7N1ZrG5qk7QY3a1f2m6j6Y3r2Kj6Q1b5a7" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo-section">
+<body class="theme-dark">
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Primary">
+            <div class="brand">
                 <div class="logo">
-                    <svg viewBox="0 0 40 40" width="40" height="40">
-                        <circle cx="20" cy="20" r="18" fill="none" stroke="#00ff88" stroke-width="1"/>
-                        <path d="M 20 8 L 28 15 L 28 28 L 12 28 L 12 15 Z" fill="none" stroke="#00ff88" stroke-width="1.5"/>
-                        <circle cx="20" cy="20" r="4" fill="#00ff88"/>
+                    <svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true">
+                        <circle cx="20" cy="20" r="18" fill="none" stroke="var(--accent)" stroke-width="1"/>
+                        <path d="M 20 8 L 28 15 L 28 28 L 12 28 L 12 15 Z" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                        <circle cx="20" cy="20" r="4" fill="var(--accent)"/>
                     </svg>
-                    <span>AI Shield</span>
+                    <div class="brand-text">
+                        <span class="product">AI Shield</span>
+                        <span class="subtitle">Enterprise SOC / NOC</span>
+                    </div>
                 </div>
             </div>
 
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" data-section="overview">
-                    <span class="icon">📊</span>
-                    <span>Overview</span>
-                </a>
-                <a href="#" class="nav-item" data-section="threats">
-                    <span class="icon">⚠️</span>
-                    <span>Threat Detection</span>
-                </a>
-                <a href="#" class="nav-item" data-section="network">
-                    <span class="icon">🌐</span>
-                    <span>Network Health</span>
-                </a>
-                <a href="#" class="nav-item" data-section="voice">
-                    <span class="icon">🎙️</span>
-                    <span>Voice Engineering</span>
-                </a>
-                <a href="#" class="nav-item" data-section="sip">
-                    <span class="icon">📞</span>
-                    <span>SIP Health</span>
-                </a>
-                <a href="#" class="nav-item" data-section="rtp">
-                    <span class="icon">🔊</span>
-                    <span>RTP Quality</span>
-                </a>
-                <a href="#" class="nav-item" data-section="dns-ntp">
-                    <span class="icon">🔗</span>
-                    <span>DNS & NTP</span>
-                </a>
-                <a href="#" class="nav-item" data-section="tac">
-                    <span class="icon">📋</span>
-                    <span>TAC Analysis</span>
-                </a>
-                <a href="#" class="nav-item" data-section="compliance">
-                    <span class="icon">✓</span>
-                    <span>Compliance</span>
-                </a>
-                <a href="#" class="nav-item" data-section="drift">
-                    <span class="icon">🔄</span>
-                    <span>Config Drift</span>
-                </a>
-                <a href="#" class="nav-item" data-section="inventory">
-                    <span class="icon">📦</span>
-                    <span>Device Inventory</span>
-                </a>
-                <a href="#" class="nav-item" data-section="remediation">
-                    <span class="icon">⚙️</span>
-                    <span>Remediation Queue</span>
-                </a>
-                <a href="#" class="nav-item" data-section="roadmap">
-                    <span class="icon">🚀</span>
-                    <span>AI Shield 2027</span>
-                </a>
+            <nav class="nav" role="navigation">
+                <a class="nav-item active" data-section="overview"><i class="fa-solid fa-chart-pie"></i><span>Overview</span></a>
+                <a class="nav-item" data-section="threats"><i class="fa-solid fa-shield-virus"></i><span>Threats</span></a>
+                <a class="nav-item" data-section="network"><i class="fa-solid fa-network-wired"></i><span>Network</span></a>
+                <a class="nav-item" data-section="voice"><i class="fa-solid fa-headset"></i><span>Voice</span></a>
+                <a class="nav-item" data-section="sip"><i class="fa-solid fa-phone"></i><span>SIP</span></a>
+                <a class="nav-item" data-section="rtp"><i class="fa-solid fa-wave-square"></i><span>RTP</span></a>
+                <a class="nav-item" data-section="dns-ntp"><i class="fa-solid fa-link"></i><span>DNS & NTP</span></a>
+                <a class="nav-item" data-section="tac"><i class="fa-solid fa-clipboard-list"></i><span>TAC</span></a>
+                <a class="nav-item" data-section="inventory"><i class="fa-solid fa-boxes-stacked"></i><span>Inventory</span></a>
+                <a class="nav-item" data-section="roadmap"><i class="fa-solid fa-rocket"></i><span>AI Shield 2027</span></a>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="status-indicator">
-                    <span class="pulse"></span>
-                    <span>System Active</span>
-                </div>
-                <p class="timestamp" id="current-time"></p>
+                <div class="status"><span class="pulse" aria-hidden="true"></span>System Active</div>
+                <div class="time" id="current-time" aria-live="polite">--</div>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search threats, devices, configurations...">
-                    <span class="search-icon">🔍</span>
+        <main class="main">
+            <header class="topbar">
+                <div class="search">
+                    <input id="search-input" type="search" placeholder="Search threats, devices, configs...">
+                    <button class="icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
-                <div class="top-controls">
-                    <button class="icon-btn" title="Notifications">
-                        🔔
-                        <span class="badge">12</span>
-                    </button>
-                    <button class="icon-btn" title="Settings">⚙️</button>
-                    <button class="icon-btn" title="User">👤</button>
+
+                <div class="top-actions">
+                    <button class="icon-btn" title="Notifications"><i class="fa-solid fa-bell"></i><span class="badge">12</span></button>
+                    <button class="icon-btn" title="Settings"><i class="fa-solid fa-gear"></i></button>
+                    <button class="icon-btn" title="User"><i class="fa-solid fa-user-circle"></i></button>
                 </div>
+            </header>
+
+            <div class="content">
+                <!-- OVERVIEW -->
+                <section id="overview" class="panel active" role="region" aria-labelledby="overview-title">
+                    <div class="panel-header">
+                        <h1 id="overview-title">Security Overview</h1>
+                        <div class="controls">
+                            <div class="timefilters" role="tablist">
+                                <button class="chip active">24h</button>
+                                <button class="chip">7d</button>
+                                <button class="chip">30d</button>
+                            </div>
+                            <div class="spacer"></div>
+                            <button class="btn ghost" data-action="refresh" data-target="overview">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div class="metrics">
+                        <div class="metric card critical">
+                            <div class="metric-top"><div class="label">Critical Alerts</div><div class="trend up">+2</div></div>
+                            <div class="value">8</div>
+                            <div class="progress"><div style="width:35%"></div></div>
+                        </div>
+
+                        <div class="metric card high">
+                            <div class="metric-top"><div class="label">High Priority</div><div class="trend">0</div></div>
+                            <div class="value">15</div>
+                            <div class="progress"><div style="width:52%"></div></div>
+                        </div>
+
+                        <div class="metric card medium">
+                            <div class="metric-top"><div class="label">Medium Priority</div><div class="trend down">-3</div></div>
+                            <div class="value">24</div>
+                            <div class="progress"><div style="width:68%"></div></div>
+                        </div>
+
+                        <div class="metric card info">
+                            <div class="metric-top"><div class="label">System Health</div><div class="trend ok">✓</div></div>
+                            <div class="value">94%</div>
+                            <div class="progress"><div style="width:94%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="cards-row">
+                        <div class="card wide">
+                            <h3>Threat Distribution</h3>
+                            <canvas id="threatChart" aria-label="Threat distribution chart"></canvas>
+                        </div>
+                        <div class="card wide">
+                            <h3>Network Status Timeline</h3>
+                            <canvas id="timelineChart" aria-label="Network timeline chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="alerts card">
+                        <div class="alerts-header"><h3>Active Security Alerts</h3><button class="btn ghost">View All</button></div>
+                        <div class="alerts-list" id="alerts-list">
+                            <!-- Alerts preserved from original markup; simplified for maintainability -->
+                            <article class="alert critical">
+                                <div class="icon"> <i class="fa-solid fa-certificate"></i></div>
+                                <div class="body">
+                                    <h4>SIP TLS Certificate Expiring</h4>
+                                    <p>TLS certificate for SIP service (sip.enterprise.local) will expire in 3 days. Renewal required immediately to prevent service disruption.</p>
+                                    <div class="meta"><span class="tag">SIP</span><span class="tag">Certificate</span><span class="tag">72h</span></div>
+                                </div>
+                                <div class="actions"><button class="btn primary">Remediate</button><button class="btn ghost">Details</button></div>
+                            </article>
+
+                            <article class="alert high">
+                                <div class="icon"><i class="fa-solid fa-clock"></i></div>
+                                <div class="body">
+                                    <h4>NTP Drift Detected</h4>
+                                    <p>Network Time Protocol (NTP) clock deviation detected on 3 systems. Drift of 450ms may impact time-sensitive security logs and authentication.</p>
+                                    <div class="meta"><span class="tag">NTP</span><span class="tag">3 systems</span><span class="tag">450ms</span></div>
+                                </div>
+                                <div class="actions"><button class="btn primary">Remediate</button><button class="btn ghost">Details</button></div>
+                            </article>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- THREATS -->
+                <section id="threats" class="panel" role="region">
+                    <div class="panel-header">
+                        <h1>Threat Detection</h1>
+                        <div class="controls"><button class="btn" data-action="refresh" data-target="threats">Refresh Threats</button></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="stats-grid">
+                            <div class="stat"> <div class="label">Threats Detected (24h)</div><div class="num">127</div></div>
+                            <div class="stat"> <div class="label">Blocked Attacks</div><div class="num">112</div></div>
+                            <div class="stat"> <div class="label">Detection Rate</div><div class="num">88.2%</div></div>
+                        </div>
+
+                        <canvas id="threatTimelineChart"></canvas>
+
+                        <h3>Recent Threat Detections</h3>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead><tr><th>Threat</th><th>Source</th><th>Target</th><th>Severity</th><th>Status</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Brute Force</td><td>192.168.45.231</td><td>ssh:22</td><td><span class="pill critical">Critical</span></td><td><span class="pill ok">Blocked</span></td><td><button class="btn small">Block IP</button></td></tr>
+                                    <tr><td>SQL Injection</td><td>10.45.120.89</td><td>WebApp:8080</td><td><span class="pill high">High</span></td><td><span class="pill ok">Blocked</span></td><td><button class="btn small">View Log</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NETWORK -->
+                <section id="network" class="panel" role="region">
+                    <div class="panel-header"><h1>Network Health</h1><div class="badge online">Online</div></div>
+
+                    <div class="cards-row">
+                        <div class="card">
+                            <h3>Network Latency</h3>
+                            <div class="big">45.2 ms</div>
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                        <div class="card">
+                            <h3>Packet Loss</h3>
+                            <div class="big">0.12%</div>
+                            <canvas id="packetLossChart"></canvas>
+                        </div>
+                        <div class="card">
+                            <h3>Bandwidth Usage</h3>
+                            <div class="big">62.5%</div>
+                            <canvas id="bandwidthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card full">
+                        <h3>Interactive Network Topology</h3>
+                        <div id="topology" class="topology" aria-hidden="false"> <!-- JS will render an interactive SVG --> </div>
+                    </div>
+                </section>
+
+                <!-- VOICE -->
+                <section id="voice" class="panel" role="region">
+                    <div class="panel-header"><h1>Voice Engineering Dashboard</h1><div class="controls"><button class="btn" data-action="refresh" data-target="voice">Refresh VoIP</button></div></div>
+
+                    <div class="cards-row">
+                        <div class="card small"><h4>SIP Registration</h4><div class="status success">Active</div><div class="sub">847/850 endpoints</div></div>
+                        <div class="card small"><h4>Call Success Rate</h4><div class="status success">98.5%</div><div class="sub">12,450 calls today</div></div>
+                        <div class="card small"><h4>Gateway Health</h4><div class="status success">Optimal</div><div class="sub">4/4 Online</div></div>
+                        <div class="card small"><h4>TLS Cert Status</h4><div class="status warning">Expiring Soon</div><div class="sub">Renew in 72h</div></div>
+                    </div>
+
+                    <div class="card full">
+                        <h3>SIP Call Flow Visualization</h3>
+                        <div id="sip-flow" class="sip-flow" aria-hidden="false"></div>
+                        <small class="muted">Interactive, Cisco-style SIP call flow. Hover a leg to see details.</small>
+                    </div>
+
+                </section>
+
+                <!-- SIP -->
+                <section id="sip" class="panel" role="region">
+                    <div class="panel-header"><h1>SIP Health Monitoring</h1><div class="badge online">Active</div></div>
+                    <div class="card full">
+                        <h3>SIP Analytics</h3>
+                        <div class="grid-2">
+                            <div>
+                                <div class="metric-item"><label>Registration Rate</label><div class="value">847</div></div>
+                                <div class="metric-item"><label>Call Setup Time</label><div class="value">245ms</div></div>
+                                <div class="metric-item"><label>Failed Calls (1h)</label><div class="value">3</div></div>
+                            </div>
+                            <div>
+                                <h4>Proxy Servers</h4>
+                                <ul class="server-list"><li>Primary - Online (428)</li><li>Secondary - Online (422)</li><li>Edge - Online (147)</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RTP -->
+                <section id="rtp" class="panel" role="region">
+                    <div class="panel-header"><h1>RTP Quality Metrics</h1><div class="controls"><button class="btn" data-action="refresh" data-target="rtp">Refresh</button></div></div>
+                    <div class="cards-row">
+                        <div class="card small"><h4>MOS</h4><div class="big">4.2</div><div class="sub">Excellent</div></div>
+                        <div class="card small"><h4>Jitter</h4><div class="big">12.5 ms</div><div class="sub">Acceptable</div></div>
+                        <div class="card small"><h4>One-Way Latency</h4><div class="big">35.8 ms</div><div class="sub">Within SLA</div></div>
+                        <div class="card small"><h4>Packet Loss</h4><div class="big">0.08%</div><div class="sub">Excellent</div></div>
+                    </div>
+
+                    <div class="card full">
+                        <h3>Codec Performance</h3>
+                        <div class="table-wrap"><table class="data-table"><thead><tr><th>Codec</th><th>Calls</th><th>MOS</th><th>Loss</th><th>Jitter</th><th>Status</th></tr></thead><tbody>
+                        <tr><td>G.722</td><td>4,234</td><td>4.3</td><td>0.05%</td><td>10.2ms</td><td>Optimal</td></tr>
+                        <tr><td>G.711</td><td>6,128</td><td>4.1</td><td>0.08%</td><td>12.5ms</td><td>Optimal</td></tr>
+                        <tr><td>Opus</td><td>2,088</td><td>4.4</td><td>0.03%</td><td>8.9ms</td><td>Excellent</td></tr>
+                        </tbody></table></div>
+                    </div>
+                </section>
+
+                <!-- DNS & NTP -->
+                <section id="dns-ntp" class="panel" role="region">
+                    <div class="panel-header"><h1>DNS & NTP Validation</h1><div class="controls"><button class="btn" data-action="run-validation">Run Validation</button></div></div>
+                    <div class="cards-row">
+                        <div class="card small">
+                            <h4>DNS Health</h4>
+                            <div class="score">98%</div>
+                            <div class="list"><div>8.8.8.8 — 12.3ms</div><div>8.8.4.4 — 13.8ms</div></div>
+                        </div>
+                        <div class="card small">
+                            <h4>NTP Health</h4>
+                            <div class="score">92%</div>
+                            <div class="list"><div>pool.ntp.org — +2ms</div><div>time.nist.gov — +1ms</div></div>
+                        </div>
+                    </div>
+
+                    <div class="card full">
+                        <h3>Critical Service Availability</h3>
+                        <div class="table-wrap"><table class="data-table"><thead><tr><th>Service</th><th>Endpoint</th><th>Response</th><th>Status</th><th>Last Check</th></tr></thead><tbody>
+                        <tr><td>DNS Resolver</td><td>10.0.0.1:53</td><td>8.5ms</td><td>Online</td><td>30s ago</td></tr>
+                        <tr><td>NTP Primary</td><td>pool.ntp.org:123</td><td>22.1ms</td><td>Online</td><td>15s ago</td></tr>
+                        </tbody></table></div>
+                    </div>
+                </section>
+
+                <!-- TAC -->
+                <section id="tac" class="panel" role="region">
+                    <div class="panel-header"><h1>TAC Analysis</h1><div class="controls"><button class="btn" data-action="generate-report">Generate Report</button></div></div>
+
+                    <div class="card full tac-grid">
+                        <div class="tac-item">
+                            <h3>SIP Certificate Expiration Risk <span class="pill critical">Critical</span></h3>
+                            <div class="tac-section"><h4>Observation</h4><p>TLS certificate for sip.enterprise.local expires soon and may interrupt registrations.</p></div>
+                            <div class="tac-section"><h4>Technical Interpretation</h4><p>Expired certs cause TLS renegotiation failures and registration drops for endpoints using TLS transport.</p></div>
+                            <div class="tac-section"><h4>Conclusion & Recommendation</h4><p>Renew certificate, deploy to secondary proxy first, validate via test calls.</p></div>
+                        </div>
+
+                        <div class="tac-item">
+                            <h3>NTP Clock Drift <span class="pill high">High</span></h3>
+                            <div class="tac-section"><h4>Observation</h4><p>Detected 450ms drift on 3 systems.</p></div>
+                            <div class="tac-section"><h4>Technical Interpretation</h4><p>Drift impacts TLS handshakes, log correlation, and VoIP jitter calculations.</p></div>
+                            <div class="tac-section"><h4>Conclusion & Recommendation</h4><p>Restart ntpd, add tertiary NTP source, validate hw clock.</p></div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Inventory & Roadmap simplified placeholders -->
+                <section id="inventory" class="panel" role="region"><div class="panel-header"><h1>Device Inventory</h1></div><div class="card">Device inventory & filtering UI will appear here.</div></section>
+                <section id="roadmap" class="panel" role="region"><div class="panel-header"><h1>AI Shield 2027 Roadmap</h1></div><div class="card">AI-driven ops, autonomous remediation, predictive detection, quantum-safe architecture.</div></section>
+
             </div>
 
-            <!-- OVERVIEW SECTION -->
-            <section id="overview" class="section active">
-                <div class="section-header">
-                    <h1>Security Overview</h1>
-                    <div class="time-filters">
-                        <button class="filter-btn active">24h</button>
-                        <button class="filter-btn">7d</button>
-                        <button class="filter-btn">30d</button>
-                    </div>
-                </div>
+            <footer class="footer">AI Shield &copy; 2026 — Enterprise SOC/NOC Platform</footer>
+        </main>
+    </div>
 
-                <!-- Key Metrics -->
-                <div class="metrics-grid">
-                    <div class="metric-card critical">
-                        <div class="metric-header">
-                            <span class="metric-label">Critical Alerts</span>
-                            <span class="metric-trend">↑ 2</span>
-                        </div>
-                        <div class="metric-value">8</div>
-                        <div class="metric-bar">
-                            <div class="bar-fill" style="width: 35%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card high">
-                        <div class="metric-header">
-                            <span class="metric-label">High Priority</span>
-                            <span class="metric-trend">→ 0</span>
-                        </div>
-                        <div class="metric-value">15</div>
-                        <div class="metric-bar">
-                            <div class="bar-fill" style="width: 52%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card medium">
-                        <div class="metric-header">
-                            <span class="metric-label">Medium Priority</span>
-                            <span class="metric-trend">↓ 3</span>
-                        </div>
-                        <div class="metric-value">24</div>
-                        <div class="metric-bar">
-                            <div class="bar-fill" style="width: 68%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card info">
-                        <div class="metric-header">
-                            <span class="metric-label">System Health</span>
-                            <span class="metric-trend">✓</span>
-                        </div>
-                        <div class="metric-value">94%</div>
-                        <div class="metric-bar">
-                            <div class="bar-fill" style="width: 94%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Charts Row -->
-                <div class="charts-row">
-                    <div class="chart-container">
-                        <h3>Threat Distribution</h3>
-                        <canvas id="threatChart"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>Network Status Timeline</h3>
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Active Alerts Section -->
-                <div class="alerts-section">
-                    <div class="section-title">
-                        <h2>Active Security Alerts</h2>
-                        <button class="btn-secondary">View All</button>
-                    </div>
-
-                    <div class="alerts-container">
-                        <!-- Critical Alert -->
-                        <div class="alert-item critical" data-priority="critical">
-                            <div class="alert-icon">🔴</div>
-                            <div class="alert-content">
-                                <div class="alert-header">
-                                    <h4>SIP TLS Certificate Expiring</h4>
-                                    <span class="alert-time">2 mins ago</span>
-                                </div>
-                                <p class="alert-description">
-                                    TLS certificate for SIP service (sip.enterprise.local) will expire in 3 days. 
-                                    Renewal required immediately to prevent service disruption.
-                                </p>
-                                <div class="alert-meta">
-                                    <span class="tag">SIP Service</span>
-                                    <span class="tag">Certificate</span>
-                                    <span class="tag">Expiry: 72h</span>
-                                </div>
-                            </div>
-                            <div class="alert-actions">
-                                <button class="btn-action btn-remediate">Remediate</button>
-                                <button class="btn-action btn-details">Details</button>
-                            </div>
-                        </div>
-
-                        <!-- High Alert -->
-                        <div class="alert-item high" data-priority="high">
-                            <div class="alert-icon">🟠</div>
-                            <div class="alert-content">
-                                <div class="alert-header">
-                                    <h4>NTP Drift Detected</h4>
-                                    <span class="alert-time">5 mins ago</span>
-                                </div>
-                                <p class="alert-description">
-                                    Network Time Protocol (NTP) clock deviation detected on 3 systems. 
-                                    Drift of 450ms may impact time-sensitive security logs and authentication.
-                                </p>
-                                <div class="alert-meta">
-                                    <span class="tag">NTP</span>
-                                    <span class="tag">3 Systems</span>
-                                    <span class="tag">450ms drift</span>
-                                </div>
-                            </div>
-                            <div class="alert-actions">
-                                <button class="btn-action btn-remediate">Remediate</button>
-                                <button class="btn-action btn-details">Details</button>
-                            </div>
-                        </div>
-
-                        <!-- Medium Alert -->
-                        <div class="alert-item medium" data-priority="medium">
-                            <div class="alert-icon">🟡</div>
-                            <div class="alert-content">
-                                <div class="alert-header">
-                                    <h4>QoS Misconfiguration</h4>
-                                    <span class="alert-time">12 mins ago</span>
-                                </div>
-                                <p class="alert-description">
-                                    Quality of Service (QoS) parameters on VLAN 100 deviate from baseline configuration. 
-                                    Current bandwidth allocation may affect VoIP traffic prioritization.
-                                </p>
-                                <div class="alert-meta">
-                                    <span class="tag">QoS</span>
-                                    <span class="tag">VLAN 100</span>
-                                    <span class="tag">Bandwidth</span>
-                                </div>
-                            </div>
-                            <div class="alert-actions">
-                                <button class="btn-action btn-remediate">Remediate</button>
-                                <button class="btn-action btn-details">Details</button>
-                            </div>
-                        </div>
-
-                        <!-- Low Alert -->
-                        <div class="alert-item low" data-priority="low">
-                            <div class="alert-icon">🔵</div>
-                            <div class="alert-content">
-                                <div class="alert-header">
-                                    <h4>Unused VLAN Detected</h4>
-                                    <span class="alert-time">28 mins ago</span>
-                                </div>
-                                <p class="alert-description">
-                                    VLAN 2045 has been inactive for 30 days with zero connected devices. 
-                                    Consider removal or reassignment to reduce network complexity.
-                                </p>
-                                <div class="alert-meta">
-                                    <span class="tag">VLAN 2045</span>
-                                    <span class="tag">Unused</span>
-                                    <span class="tag">30 days</span>
-                                </div>
-                            </div>
-                            <div class="alert-actions">
-                                <button class="btn-action btn-remediate">Archive</button>
-                                <button class="btn-action btn-details">Details</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- THREAT DETECTION SECTION -->
-            <section id="threats" class="section">
-                <div class="section-header">
-                    <h1>Threat Detection</h1>
-                    <button class="btn-primary">Refresh Threats</button>
-                </div>
-
-                <div class="threat-dashboard">
-                    <div class="threat-stats">
-                        <div class="stat-box">
-                            <span class="stat-label">Threats Detected (24h)</span>
-                            <span class="stat-value">127</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">Blocked Attacks</span>
-                            <span class="stat-value">112</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">Detection Rate</span>
-                            <span class="stat-value">88.2%</span>
-                        </div>
-                    </div>
-
-                    <canvas id="threatTimelineChart"></canvas>
-
-                    <div class="threat-list">
-                        <h3>Recent Threat Detections</h3>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Threat Type</th>
-                                    <th>Source IP</th>
-                                    <th>Target</th>
-                                    <th>Severity</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Brute Force Attack</td>
-                                    <td>192.168.45.231</td>
-                                    <td>ssh:22</td>
-                                    <td><span class="severity critical">Critical</span></td>
-                                    <td><span class="status blocked">Blocked</span></td>
-                                    <td><button class="btn-small">Block IP</button></td>
-                                </tr>
-                                <tr>
-                                    <td>SQL Injection Attempt</td>
-                                    <td>10.45.120.89</td>
-                                    <td>WebApp:8080</td>
-                                    <td><span class="severity high">High</span></td>
-                                    <td><span class="status blocked">Blocked</span></td>
-                                    <td><button class="btn-small">View Log</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Port Scanning</td>
-                                    <td>203.0.113.45</td>
-                                    <td>Multiple</td>
-                                    <td><span class="severity medium">Medium</span></td>
-                                    <td><span class="status monitored">Monitored</span></td>
-                                    <td><button class="btn-small">Details</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- NETWORK HEALTH SECTION -->
-            <section id="network" class="section">
-                <div class="section-header">
-                    <h1>Network Health</h1>
-                    <span class="status-badge online">● Online</span>
-                </div>
-
-                <div class="network-metrics">
-                    <div class="network-card">
-                        <h3>Network Latency</h3>
-                        <div class="big-metric">45.2 ms</div>
-                        <div class="metric-sub">Average response time</div>
-                        <canvas id="latencyChart"></canvas>
-                    </div>
-
-                    <div class="network-card">
-                        <h3>Packet Loss</h3>
-                        <div class="big-metric">0.12%</div>
-                        <div class="metric-sub">Within acceptable range</div>
-                        <canvas id="packetLossChart"></canvas>
-                    </div>
-
-                    <div class="network-card">
-                        <h3>Bandwidth Usage</h3>
-                        <div class="big-metric">62.5%</div>
-                        <div class="metric-sub">1.25 Gbps of 2 Gbps</div>
-                        <canvas id="bandwidthChart"></canvas>
-                    </div>
-
-                    <div class="network-card">
-                        <h3>Connected Devices</h3>
-                        <div class="big-metric">2,847</div>
-                        <div class="metric-sub">All devices responding</div>
-                        <div class="device-breakdown">
-                            <div class="device-type">
-                                <span>Workstations: 1,240</span>
-                                <div class="small-bar"><div style="width: 60%;"></div></div>
-                            </div>
-                            <div class="device-type">
-                                <span>Servers: 156</span>
-                                <div class="small-bar"><div style="width: 20%;"></div></div>
-                            </div>
-                            <div class="device-type">
-                                <span>IoT/Sensors: 892</span>
-                                <div class="small-bar"><div style="width: 50%;"></div></div>
-                            </div>
-                            <div class="device-type">
-                                <span>Mobile: 559</span>
-                                <div class="small-bar"><div style="width: 30%;"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- VOICE ENGINEERING SECTION -->
-            <section id="voice" class="section">
-                <div class="section-header">
-                    <h1>Voice Engineering Dashboard</h1>
-                    <button class="btn-primary">Refresh VoIP Status</button>
-                </div>
-
-                <div class="voice-dashboard">
-                    <div class="voice-metrics-grid">
-                        <div class="voice-card">
-                            <h4>SIP Registration Status</h4>
-                            <div class="status-value success">Active</div>
-                            <span class="sub-metric">847/850 Endpoints</span>
-                        </div>
-
-                        <div class="voice-card">
-                            <h4>Call Success Rate</h4>
-                            <div class="status-value success">98.5%</div>
-                            <span class="sub-metric">12,450 calls today</span>
-                        </div>
-
-                        <div class="voice-card">
-                            <h4>Gateway Health</h4>
-                            <div class="status-value success">Optimal</div>
-                            <span class="sub-metric">4/4 Gateways Online</span>
-                        </div>
-
-                        <div class="voice-card">
-                            <h4>TLS Cert Status</h4>
-                            <div class="status-value warning">Expiring Soon</div>
-                            <span class="sub-metric">Renewal: 72 hours</span>
-                        </div>
-                    </div>
-
-                    <div class="voice-details">
-                        <h3>Voice Infrastructure Details</h3>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Status</th>
-                                    <th>Endpoints</th>
-                                    <th>Uptime</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Primary SIP Server</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>425</td>
-                                    <td>99.98%</td>
-                                    <td><button class="btn-small">Monitor</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Secondary SIP Server</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>422</td>
-                                    <td>99.95%</td>
-                                    <td><button class="btn-small">Monitor</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Media Gateway 1</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>128</td>
-                                    <td>100%</td>
-                                    <td><button class="btn-small">Monitor</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Voicemail Server</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>N/A</td>
-                                    <td>99.92%</td>
-                                    <td><button class="btn-small">Monitor</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SIP HEALTH MONITORING SECTION -->
-            <section id="sip" class="section">
-                <div class="section-header">
-                    <h1>SIP Health Monitoring</h1>
-                    <span class="status-badge online">● Active</span>
-                </div>
-
-                <div class="sip-dashboard">
-                    <div class="sip-metrics">
-                        <div class="sip-metric-card">
-                            <h4>SIP Registration Rate</h4>
-                            <div class="metric-value-large">847</div>
-                            <div class="metric-spark">📈 99.6% of baseline</div>
-                        </div>
-
-                        <div class="sip-metric-card">
-                            <h4>Call Setup Time</h4>
-                            <div class="metric-value-large">245ms</div>
-                            <div class="metric-spark">✓ Within SLA</div>
-                        </div>
-
-                        <div class="sip-metric-card">
-                            <h4>Failed Calls (1h)</h4>
-                            <div class="metric-value-large">3</div>
-                            <div class="metric-spark">↓ Improving trend</div>
-                        </div>
-
-                        <div class="sip-metric-card">
-                            <h4>SIP Proxy Load</h4>
-                            <div class="metric-value-large">42%</div>
-                            <div class="metric-spark">✓ Healthy capacity</div>
-                        </div>
-                    </div>
-
-                    <div class="sip-analysis">
-                        <h3>SIP Proxy Server Analysis</h3>
-                        <div class="sip-server-list">
-                            <div class="sip-server">
-                                <h5>Primary Proxy (sip.enterprise.local)</h5>
-                                <div class="server-stats">
-                                    <span>Load: 42% | Connections: 428 | Uptime: 99.98%</span>
-                                </div>
-                                <div class="status-indicator success">Healthy</div>
-                            </div>
-                            <div class="sip-server">
-                                <h5>Secondary Proxy (sip2.enterprise.local)</h5>
-                                <div class="server-stats">
-                                    <span>Load: 38% | Connections: 419 | Uptime: 99.95%</span>
-                                </div>
-                                <div class="status-indicator success">Healthy</div>
-                            </div>
-                            <div class="sip-server">
-                                <h5>Edge Proxy (edge.enterprise.local)</h5>
-                                <div class="server-stats">
-                                    <span>Load: 28% | Connections: 147 | Uptime: 99.99%</span>
-                                </div>
-                                <div class="status-indicator success">Healthy</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RTP QUALITY METRICS SECTION -->
-            <section id="rtp" class="section">
-                <div class="section-header">
-                    <h1>RTP Quality Metrics</h1>
-                    <button class="btn-primary">Refresh Metrics</button>
-                </div>
-
-                <div class="rtp-dashboard">
-                    <div class="rtp-quality-cards">
-                        <div class="quality-card excellent">
-                            <h4>Mean Opinion Score</h4>
-                            <div class="mos-score">4.2</div>
-                            <div class="mos-rating">⭐⭐⭐⭐ Excellent</div>
-                            <span class="range-info">Scale: 1.0 - 5.0</span>
-                        </div>
-
-                        <div class="quality-card good">
-                            <h4>Jitter</h4>
-                            <div class="quality-value">12.5 ms</div>
-                            <div class="quality-status">✓ Acceptable Range</div>
-                            <span class="range-info">Threshold: &lt; 20ms</span>
-                        </div>
-
-                        <div class="quality-card good">
-                            <h4>One-Way Latency</h4>
-                            <div class="quality-value">35.8 ms</div>
-                            <div class="quality-status">✓ Within SLA</div>
-                            <span class="range-info">Target: &lt; 50ms</span>
-                        </div>
-
-                        <div class="quality-card excellent">
-                            <h4>Packet Loss</h4>
-                            <div class="quality-value">0.08%</div>
-                            <div class="quality-status">✓ Excellent</div>
-                            <span class="range-info">Threshold: &lt; 1%</span>
-                        </div>
-                    </div>
-
-                    <div class="rtp-codecs">
-                        <h3>Codec Performance Analysis</h3>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Codec</th>
-                                    <th>Calls (24h)</th>
-                                    <th>Avg MOS</th>
-                                    <th>Packet Loss</th>
-                                    <th>Jitter</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>G.722 (Wideband)</td>
-                                    <td>4,234</td>
-                                    <td>4.3</td>
-                                    <td>0.05%</td>
-                                    <td>10.2 ms</td>
-                                    <td><span class="status excellent">Optimal</span></td>
-                                </tr>
-                                <tr>
-                                    <td>G.711 (Narrowband)</td>
-                                    <td>6,128</td>
-                                    <td>4.1</td>
-                                    <td>0.08%</td>
-                                    <td>12.5 ms</td>
-                                    <td><span class="status excellent">Optimal</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Opus</td>
-                                    <td>2,088</td>
-                                    <td>4.4</td>
-                                    <td>0.03%</td>
-                                    <td>8.9 ms</td>
-                                    <td><span class="status excellent">Excellent</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- DNS & NTP VALIDATION SECTION -->
-            <section id="dns-ntp" class="section">
-                <div class="section-header">
-                    <h1>DNS & NTP Validation</h1>
-                    <button class="btn-primary">Run Validation</button>
-                </div>
-
-                <div class="dns-ntp-dashboard">
-                    <div class="validation-panels">
-                        <div class="validation-panel dns">
-                            <h3>DNS Resolution Status</h3>
-                            <div class="validation-results">
-                                <div class="result-item success">
-                                    <span class="result-icon">✓</span>
-                                    <div class="result-content">
-                                        <h5>Primary DNS (8.8.8.8)</h5>
-                                        <p>Response Time: 12.3ms | Status: Active</p>
-                                    </div>
-                                </div>
-                                <div class="result-item success">
-                                    <span class="result-icon">✓</span>
-                                    <div class="result-content">
-                                        <h5>Secondary DNS (8.8.4.4)</h5>
-                                        <p>Response Time: 13.8ms | Status: Active</p>
-                                    </div>
-                                </div>
-                                <div class="result-item success">
-                                    <span class="result-icon">✓</span>
-                                    <div class="result-content">
-                                        <h5>Internal DNS (10.0.0.1)</h5>
-                                        <p>Response Time: 8.5ms | Status: Active</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="validation-score">
-                                <div class="score-circle small">
-                                    <span class="score-text">98%</span>
-                                </div>
-                                <span class="score-label">DNS Health</span>
-                            </div>
-                        </div>
-
-                        <div class="validation-panel ntp">
-                            <h3>NTP Synchronization Status</h3>
-                            <div class="validation-results">
-                                <div class="result-item success">
-                                    <span class="result-icon">✓</span>
-                                    <div class="result-content">
-                                        <h5>Primary NTP (pool.ntp.org)</h5>
-                                        <p>Offset: +2ms | Stratum: 2 | Status: Active</p>
-                                    </div>
-                                </div>
-                                <div class="result-item success">
-                                    <span class="result-icon">✓</span>
-                                    <div class="result-content">
-                                        <h5>Secondary NTP (time.nist.gov)</h5>
-                                        <p>Offset: +1ms | Stratum: 1 | Status: Active</p>
-                                    </div>
-                                </div>
-                                <div class="result-item warning">
-                                    <span class="result-icon">⚠</span>
-                                    <div class="result-content">
-                                        <h5>System Clock Drift</h5>
-                                        <p>Drift: +3ms on 2 systems | Requires sync</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="validation-score">
-                                <div class="score-circle small">
-                                    <span class="score-text">92%</span>
-                                </div>
-                                <span class="score-label">NTP Health</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="service-checks">
-                        <h3>Critical Service Availability</h3>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>Endpoint</th>
-                                    <th>Response Time</th>
-                                    <th>Status</th>
-                                    <th>Last Check</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>DNS Recursive Resolver</td>
-                                    <td>10.0.0.1:53</td>
-                                    <td>8.5ms</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>30 seconds ago</td>
-                                </tr>
-                                <tr>
-                                    <td>NTP Primary</td>
-                                    <td>pool.ntp.org:123</td>
-                                    <td>22.1ms</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>15 seconds ago</td>
-                                </tr>
-                                <tr>
-                                    <td>NTP Secondary</td>
-                                    <td>time.nist.gov:123</td>
-                                    <td>18.9ms</td>
-                                    <td><span class="status online">Online</span></td>
-                                    <td>10 seconds ago</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAC ANALYSIS SECTION -->
-            <section id="tac" class="section">
-                <div class="section-header">
-                    <h1>TAC Analysis - Technical Advisory Center</h1>
-                    <button class="btn-primary">Generate Report</button>
-                </div>
-
-                <div class="tac-dashboard">
-                    <div class="tac-analysis-items">
-                        <!-- TAC Item 1 -->\n                        <div class="tac-item">
-                            <div class="tac-header">
-                                <h3>SIP Certificate Expiration Risk</h3>
-                                <span class="severity-badge critical">Critical</span>
-                            </div>
-                            
-                            <div class="tac-section">
-                                <h4>📊 Observation</h4>
-                                <p>During routine monitoring, the SIP TLS certificate for sip.enterprise.local (CN: *.enterprise.local) was detected with an expiration date of 2024-06-12. Certificate validity period: 1095 days (now showing 3 days remaining). Certificate issued by: GlobalSign (SHA-256, RSA 2048-bit).</p>
-                            </div>
-
-                            <div class="tac-section">
-                                <h4>🔍 Technical Interpretation</h4>
-                                <p>The detected certificate expiration represents a critical infrastructure threat. TLS certificates authenticate SIP endpoints and encrypt signaling traffic. Expiration will trigger certificate validation failures in SIP user agents and proxies, causing:</p>
-                                <ul>\n                                    <li><strong>Registration Failures:</strong> SIP endpoints unable to register</li>\n                                    <li><strong>Call Setup Blocking:</strong> New calls fail</li>\n                                    <li><strong>Security Downgrade:</strong> Fallback to unencrypted SIP</li>\n                                    <li><strong>Audit Violations:</strong> SOC 2 / ISO 27001 non-compliance</li>\n                                </ul>\n                            </div>
-
-                            <div class="tac-section">
-                                <h4>✅ TAC Conclusion & Recommendations</h4>
-                                <p><strong>Immediate:</strong> Obtain replacement certificate from CA. Deploy to secondary proxy first. Test calls before production.</p>\n                                <p><strong>Long-term:</strong> Implement automated monitoring (90/60/30-day alerts). Establish renewal process 45 days before expiration.</p>\n                            </div>
-                        </div>
-
-                        <!-- TAC Item 2 -->\n                        <div class="tac-item">
-                            <div class="tac-header">
-                                <h3>NTP Clock Synchronization Drift</h3>
-                                <span class="severity-badge high">High</span>
-                            </div>
-                            
-                            <div class="tac-section">
-                                <h4>📊 Observation</h4>
-                                <p>NTP monitoring detected clock drift on 3 systems (SRV-VOIP-01, SRV-VOIP-02, WS-ADMIN-04). Maximum observed drift: +450ms. Root cause: Primary NTP server experienced 2 connection timeouts.</p>\n                            </div>
-
-                            <div class="tac-section">
-                                <h4>🔍 Technical Interpretation</h4>
-                                <p>450ms clock drift in VoIP infrastructure creates significant risks:</p>\n                                <ul>\n                                    <li><strong>Call Quality Impact:</strong> RTP timestamp sync failures</li>\n                                    <li><strong>Media Sync Issues:</strong> Audio/video out of sync</li>\n                                    <li><strong>Security Log Inconsistency:</strong> Audit trail correlation impossible</li>\n                                    <li><strong>Session Timer Mismatch:</strong> SIP session timers affected</li>\n                                </ul>\n                            </div>
-
-                            <div class="tac-section">
-                                <h4>✅ TAC Conclusion & Recommendations</h4>
-                                <p><strong>Emergency:</strong> Restart ntpd service. Verify hardware clock accuracy. Add tertiary NTP source for redundancy.</p>\n                            </div>
-                        </div>
-
-                        <!-- TAC Item 3 -->\n                        <div class="tac-item">
-                            <div class="tac-header">
-                                <h3>QoS Configuration Baseline Drift</h3>
-                                <span class="severity-badge medium">Medium</span>\n                            </div>
-                            
-                            <div class="tac-section">
-                                <h4>📊 Observation</h4>
-                                <p>Configuration drift detected on VLAN 100. Expected: 8 QoS policy classes. Current: 6 classes. PREMIUM-TRAFFIC and EMERGENCY classes removed.</p>\n                            </div>
-
-                            <div class="tac-section">
-                                <h4>🔍 Technical Interpretation</h4>
-                                <p>Removal impacts VoIP prioritization - voice traffic no longer guaranteed priority. Performance degradation expected under congestion. E-911 SLA violations possible.</p>\n                            </div>
-
-                            <div class="tac-section">
-                                <h4>✅ TAC Conclusion & Recommendations</h4>
-                                <p><strong>Immediate:</strong> Restore baseline configuration. <strong>Prevent:</strong> Enable configuration locking on QoS policies. Require change tickets for modifications.</p>\n                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- COMPLIANCE SECTION -->\n            <section id=\"compliance\" class=\"section\">\n                <div class=\"section-header\">\n                    <h1>Compliance Status</h1>\n                    <button class=\"btn-primary\">Generate Report</button>\n                </div>\n\n                <div class=\"compliance-dashboard\">\n                    <div class=\"compliance-overview\">\n                        <div class=\"compliance-score\">\n                            <div class=\"score-circle\">\n                                <svg viewBox=\"0 0 200 200\">\n                                    <circle cx=\"100\" cy=\"100\" r=\"90\" fill=\"none\" stroke=\"#333\" stroke-width=\"8\"/>\n                                    <circle cx=\"100\" cy=\"100\" r=\"90\" fill=\"none\" stroke=\"#00ff88\" stroke-width=\"8\" stroke-dasharray=\"425.88\" stroke-dashoffset=\"63.88\" transform=\"rotate(-90 100 100)\"/>\n                                </svg>\n                                <div class=\"score-text\">\n                                    <span class=\"score-value\">85</span>\n                                    <span class=\"score-label\">Compliance</span>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"frameworks\">\n                            <div class=\"framework-item\">\n                                <h4>SOC 2 Type II</h4>\n                                <div class=\"progress-bar\">\n                                    <div class=\"progress-fill\" style=\"width: 92%;\"></div>\n                                </div>\n                                <span class=\"progress-text\">92% Compliant</span>\n                            </div>\n                            <div class=\"framework-item\">\n                                <h4>ISO 27001</h4>\n                                <div class=\"progress-bar\">\n                                    <div class=\"progress-fill\" style=\"width: 85%;\"></div>\n                                </div>\n                                <span class=\"progress-text\">85% Compliant</span>\n                            </div>\n                            <div class=\"framework-item\">\n                                <h4>NIST 800-53</h4>\n                                <div class=\"progress-bar\">\n                                    <div class=\"progress-fill\" style=\"width: 78%;\"></div>\n                                </div>\n                                <span class=\"progress-text\">78% Compliant</span>\n                            </div>\n                            <div class=\"framework-item\">\n                                <h4>CIS Benchmarks</h4>\n                                <div class=\"progress-bar\">\n                                    <div class=\"progress-fill\" style=\"width: 88%;\"></div>\n                                </div>\n                                <span class=\"progress-text\">88% Compliant</span>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"compliance-issues\">\n                        <h3>Outstanding Issues</h3>\n                        <div class=\"issues-list\">\n                            <div class=\"issue-item critical\">\n                                <span class=\"icon\">⚠️</span>\n                                <div class=\"issue-details\">\n                                    <h5>Encryption Standards</h5>\n                                    <p>7 systems using deprecated TLS 1.0</p>\n                                </div>\n                                <button class=\"btn-small\">Fix</button>\n                            </div>\n                            <div class=\"issue-item high\">\n                                <span class=\"icon\">⚠️</span>\n                                <div class=\"issue-details\">\n                                    <h5>Access Control</h5>\n                                    <p>3 users with excessive privileges</p>\n                                </div>\n                                <button class=\"btn-small\">Fix</button>\n                            </div>\n                            <div class=\"issue-item medium\">\n                                <span class=\"icon\">⚠️</span>\n                                <div class=\"issue-details\">\n                                    <h5>Audit Logs</h5>\n                                    <p>Log retention period below requirement</p>\n                                </div>\n                                <button class=\"btn-small\">Fix</button>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section>\n\n            <!-- CONFIGURATION DRIFT SECTION -->\n            <section id=\"drift\" class=\"section\">\n                <div class=\"section-header\">\n                    <h1>Configuration Drift Detection</h1>\n                    <button class=\"btn-primary\">Scan Now</button>\n                </div>\n\n                <div class=\"drift-dashboard\">\n                    <div class=\"drift-summary\">\n                        <div class=\"drift-stat\">\n                            <span class=\"drift-count\">12</span>\n                            <span class=\"drift-label\">Configurations Drifted</span>\n                            <div class=\"severity-indicator critical\"></div>\n                        </div>\n                        <div class=\"drift-stat\">\n                            <span class=\"drift-count\">45</span>\n                            <span class=\"drift-label\">Deviations Found</span>\n                            <div class=\"severity-indicator high\"></div>\n                        </div>\n                        <div class=\"drift-stat\">\n                            <span class=\"drift-count\">89%</span>\n                            <span class=\"drift-label\">Baseline Compliance</span>\n                            <div class=\"severity-indicator info\"></div>\n                        </div>\n                    </div>\n\n                    <div class=\"drift-items\">\n                        <div class=\"drift-item\">\n                            <div class=\"item-header\">\n                                <h4>Firewall Rules - DMZ Segment</h4>\n                                <span class=\"drift-badge critical\">Critical Drift</span>\n                            </div>\n                            <div class=\"item-details\">\n                                <p><strong>Expected:</strong> 127 rules | <strong>Current:</strong> 134 rules</p>\n                                <button class=\"btn-action btn-remediate\">View Changes</button>\n                                <button class=\"btn-action\">Rollback</button>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section>\n\n            <!-- DEVICE INVENTORY SECTION -->\n            <section id=\"inventory\" class=\"section\">\n                <div class=\"section-header\">\n                    <h1>Device Inventory</h1>\n                    <button class=\"btn-primary\">Export CSV</button>\n                </div>\n\n                <div class=\"inventory-filters\">\n                    <input type=\"text\" placeholder=\"Filter by hostname, IP, or MAC...\" class=\"filter-input\">\n                    <select class=\"filter-select\">\n                        <option>All Device Types</option>\n                        <option>Workstations</option>\n                        <option>Servers</option>\n                    </select>\n                </div>\n\n                <div class=\"inventory-table-wrapper\">\n                    <table class=\"data-table\">\n                        <thead>\n                            <tr>\n                                <th>Hostname</th>\n                                <th>IP Address</th>\n                                <th>Status</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr>\n                                <td>WS-CORP-001</td>\n                                <td>192.168.1.101</td>\n                                <td><span class=\"status online\">Online</span></td>\n                            </tr>\n                            <tr>\n                                <td>SRV-DB-PROD</td>\n                                <td>10.0.1.50</td>\n                                <td><span class=\"status online\">Online</span></td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n            </section>\n\n            <!-- REMEDIATION QUEUE SECTION -->\n            <section id=\"remediation\" class=\"section\">\n                <div class=\"section-header\">\n                    <h1>Autonomous Remediation Queue</h1>\n                    <button class=\"btn-primary\">Execute Pending</button>\n                </div>\n\n                <div class=\"remediation-stats\">\n                    <div class=\"stat-card\">\n                        <span class=\"stat-icon\">⏳</span>\n                        <span class=\"stat-name\">Pending</span>\n                        <span class=\"stat-value\">6</span>\n                    </div>\n                    <div class=\"stat-card\">\n                        <span class=\"stat-icon\">⚙️</span>\n                        <span class=\"stat-name\">In Progress</span>\n                        <span class=\"stat-value\">2</span>\n                    </div>\n                    <div class=\"stat-card\">\n                        <span class=\"stat-icon\">✓</span>\n                        <span class=\"stat-name\">Completed (24h)</span>\n                        <span class=\"stat-value\">18</span>\n                    </div>\n                </div>\n\n                <div class=\"remediation-queue\">\n                    <h3>Remediation Tasks</h3>\n                    <div class=\"remediation-item in-progress\">\n                        <div class=\"task-header\">\n                            <h4>Update SSL/TLS Certificates</h4>\n                            <span class=\"task-status in-progress\">⚙️ In Progress</span>\n                        </div>\n                        <div class=\"progress-bar\">\n                            <div class=\"progress-fill\" style=\"width: 65%;\"></div>\n                        </div>\n                    </div>\n                </div>\n            </section>\n\n            <!-- AI SHIELD 2027 ROADMAP SECTION -->\n            <section id=\"roadmap\" class=\"section\">\n                <div class=\"section-header\">\n                    <h1>🚀 AI Shield 2027 - Future Vision</h1>\n                    <span class=\"roadmap-badge\">Enterprise Security Evolution</span>\n                </div>\n\n                <div class=\"roadmap-dashboard\">\n                    <div class=\"roadmap-intro\">\n                        <p>AI Shield 2027 represents the next generation of cybersecurity monitoring and autonomous response. By 2027, AI Shield will evolve from a reactive dashboard to a predictive, self-healing security fabric powered by machine learning, quantum-safe cryptography, and distributed intelligence.</p>\n                    </div>\n\n                    <div class=\"roadmap-timeline\">\n                        <div class=\"roadmap-phase phase-2024\">\n                            <div class=\"phase-header\">\n                                <h3>📍 2024 - Current (v1.0)</h3>\n                                <span class=\"phase-status current\">Now</span>\n                            </div>\n                            <ul>\n                                <li>✓ Real-time threat detection</li>\n                                <li>✓ Network health monitoring</li>\n                                <li>✓ Voice engineering analytics</li>\n                                <li>✓ Configuration drift detection</li>\n                                <li>✓ Autonomous remediation</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"roadmap-phase phase-2025\">\n                            <div class=\"phase-header\">\n                                <h3>🎯 2025 - AI Integration (v2.0)</h3>\n                                <span class=\"phase-status upcoming\">Q1-Q4</span>\n                            </div>\n                            <ul>\n                                <li>🤖 Predictive threat intelligence</li>\n                                <li>🤖 Anomaly detection using behavioral analytics</li>\n                                <li>🤖 Automated incident classification</li>\n                                <li>🤖 SOAR integration</li>\n                                <li>📱 Mobile app with push alerts</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"roadmap-phase phase-2026\">\n                            <div class=\"phase-header\">\n                                <h3>🔮 2026 - Distributed Architecture (v3.0)</h3>\n                                <span class=\"phase-status planned\">Q1-Q4</span>\n                            </div>\n                            <ul>\n                                <li>🌍 Multi-region SOC deployment</li>\n                                <li>🌐 Distributed sensor architecture</li>\n                                <li>🔄 Automated failover & redundancy</li>\n                                <li>🛡️ Zero-trust architecture framework</li>\n                                <li>📡 5G/6G network monitoring</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"roadmap-phase phase-2027\">\n                            <div class=\"phase-header\">\n                                <h3>🚀 2027 - Quantum Ready (v4.0)</h3>\n                                <span class=\"phase-status future\">Vision</span>\n                            </div>\n                            <ul>\n                                <li>⚛️ Quantum-resistant encryption (NIST PQC)</li>\n                                <li>🧠 Advanced AI with federated learning</li>\n                                <li>🔬 Autonomous penetration testing</li>\n                                <li>🌌 Predictive threat modeling</li>\n                                <li>🤝 Cross-organization threat intelligence</li>\n                            </ul>\n                        </div>\n                    </div>\n\n                    <div class=\"roadmap-benefits\">\n                        <h2>Expected Benefits (2027)</h2>\n                        <div class=\"benefits-list\">\n                            <div class=\"benefit\">\n                                <span class=\"benefit-icon\">⚡</span>\n                                <h5>90% Faster Incident Response</h5>\n                                <p>Autonomous systems detect and respond in <100ms</p>\n                            </div>\n                            <div class=\"benefit\">\n                                <span class=\"benefit-icon\">🛡️</span>\n                                <h5>99.99% Uptime SLA</h5>\n                                <p>Multi-region distributed architecture</p>\n                            </div>\n                            <div class=\"benefit\">\n                                <span class=\"benefit-icon\">🧠</span>\n                                <h5>Zero-Day Detection</h5>\n                                <p>ML models predict novel threats</p>\n                            </div>\n                            <div class=\"benefit\">\n                                <span class=\"benefit-icon\">💰</span>\n                                <h5>60% Cost Reduction</h5>\n                                <p>Autonomous remediation eliminates overhead</p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section>\n        </main>\n    </div>\n\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js\"></script>\n    <script src=\"script.js\"></script>\n</body>\n</html>
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
